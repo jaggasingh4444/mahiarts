@@ -104,6 +104,66 @@
   document.addEventListener('scroll', toggleScrollTop);
 
   /**
+   * Contact form submit
+   */
+  const contactToast = document.createElement('div');
+  contactToast.className = 'contact-toast';
+  contactToast.textContent = 'Send successfully';
+  document.body.appendChild(contactToast);
+  let contactToastTimeout;
+
+  function showContactToast() {
+    contactToast.classList.add('is-visible');
+    window.clearTimeout(contactToastTimeout);
+    contactToastTimeout = window.setTimeout(() => {
+      contactToast.classList.remove('is-visible');
+    }, 3600);
+  }
+
+  document.querySelectorAll('.php-email-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const action = this.getAttribute('action');
+      const loading = this.querySelector('.loading');
+      const errorMessage = this.querySelector('.error-message');
+      const sentMessage = this.querySelector('.sent-message');
+      const submitButton = this.querySelector('button[type="submit"]');
+
+      loading.classList.add('d-block');
+      errorMessage.classList.remove('d-block');
+      sentMessage.classList.remove('d-block');
+      submitButton.disabled = true;
+
+      fetch(action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Message could not be sent. Please try again.');
+          }
+          return response.json().catch(() => ({}));
+        })
+        .then(() => {
+          loading.classList.remove('d-block');
+          sentMessage.classList.add('d-block');
+          showContactToast();
+          this.reset();
+        })
+        .catch(error => {
+          loading.classList.remove('d-block');
+          errorMessage.textContent = error.message || 'Message could not be sent. Please try again.';
+          errorMessage.classList.add('d-block');
+        })
+        .finally(() => {
+          submitButton.disabled = false;
+        });
+    });
+  });
+
+  /**
    * Active nav link on scroll
    */
   const navmenuLinks = document.querySelectorAll('#navmenu a[href^="#"]');

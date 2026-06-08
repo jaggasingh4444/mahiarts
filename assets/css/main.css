@@ -109,6 +109,28 @@ h6 {
   font-weight: 600;
 }
 
+.contact-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 92px;
+  z-index: 99999;
+  padding: 14px 18px;
+  border-radius: 6px;
+  color: #ffffff;
+  background: #059652;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.contact-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .php-email-form .loading {
   display: none;
   background: var(--surface-color);
@@ -1477,6 +1499,11 @@ section,
 
 .contact .php-email-form button[type=submit]:hover {
   background-color: color-mix(in srgb, var(--accent-color) 90%, white 10%);
+}
+
+.contact .php-email-form button[type=submit]:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 /*--------------------------------------------------------------
