@@ -39,6 +39,9 @@
    */
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
     navmenu.addEventListener('click', () => {
+      document.querySelectorAll('#navmenu a').forEach(link => link.classList.remove('active'));
+      navmenu.classList.add('active');
+      navmenu.blur();
       if (document.querySelector('.mobile-nav-active')) {
         mobileNavToogle();
       }
@@ -99,6 +102,35 @@
 
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
+
+  /**
+   * Active nav link on scroll
+   */
+  const navmenuLinks = document.querySelectorAll('#navmenu a[href^="#"]');
+
+  function navmenuScrollspy() {
+    let activeLink = navmenuLinks[0];
+    const headerOffset = (document.querySelector('#header')?.offsetHeight || 0) + 90;
+
+    navmenuLinks.forEach(link => {
+      const section = document.querySelector(link.hash);
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= headerOffset && rect.bottom > headerOffset) {
+        activeLink = link;
+      }
+    });
+
+    navmenuLinks.forEach(link => link.classList.remove('active'));
+    if (activeLink) {
+      activeLink.classList.add('active');
+    }
+  }
+
+  window.addEventListener('load', navmenuScrollspy);
+  document.addEventListener('scroll', navmenuScrollspy);
+  window.addEventListener('resize', navmenuScrollspy);
 
   /**
    * Animation on scroll function and init
