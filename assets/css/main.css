@@ -927,14 +927,14 @@ section,
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  background: var(--surface-color);
+  background: #050505;
 }
 
 .gallery .gallery-item img {
   aspect-ratio: 4 / 3;
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: 0.3s;
 }
 
@@ -976,7 +976,7 @@ section,
 }
 
 .gallery .gallery-item:hover img {
-  transform: scale(1.1);
+  transform: none;
 }
 
 .glightbox-clean .gslide-description {
