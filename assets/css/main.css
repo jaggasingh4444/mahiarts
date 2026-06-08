@@ -999,9 +999,9 @@ section,
 .about .artist-about-img {
   border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--accent-color), transparent 55%);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  object-position: 50% 38%;
+  object-position: center;
   width: 100%;
 }
 
